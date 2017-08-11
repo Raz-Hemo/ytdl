@@ -6,6 +6,5 @@
 namespace Constants
 {
 	const TCHAR ProgramName[] = _T("ytdl");
-
 	constexpr int HotkeyDownload = 1337;
 }

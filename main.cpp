@@ -14,10 +14,22 @@ int WINAPI _tWinMain(
 	UNREFERENCED_PARAMETER(nCmdShow);
 
 	MSG msg = { 0 };
+	PROCESS_INFORMATION proc_info = { 0 };
+	STARTUPINFO proc_startup_info = { 0 };
+	proc_startup_info.cb = sizeof(proc_startup_info);
+
 	Window window(hInstance);
-	
+
 	// Bind the hotkey handler
-	window.SetHotkeyHandler([]() { MessageBox(NULL, _T("hi"), _T("heya"), MB_OK); });
+	window.SetHotkeyHandler([&]() { 
+		// Execute ytdl.py under windowless python
+		TCHAR cmdline[] = _T("pythonw ytdl.py");
+		if (CreateProcess(NULL, cmdline, NULL, NULL, FALSE, 0, NULL, NULL, &proc_startup_info, &proc_info))
+		{
+			CloseHandle(proc_info.hProcess);
+			CloseHandle(proc_info.hThread);
+		}
+	});
 
 	while (true)
 	{
