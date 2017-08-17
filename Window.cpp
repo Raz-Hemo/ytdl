@@ -13,7 +13,15 @@ LRESULT CALLBACK WndProc(
 	{
 	case WM_HOTKEY:
 		if (wParam == Constants::HotkeyDownload && HandleHotkey)
+		{
+			// Wait until the hotkey was released
+			while ((GetAsyncKeyState(0x44) & 0x8000) ||
+				(GetAsyncKeyState(VK_LWIN) & 0x8000) ||
+				(GetAsyncKeyState(VK_LSHIFT) & 0x8000)) 
+				Sleep(1);
+
 			HandleHotkey();
+		}
 	default:
 		return DefWindowProc(hwnd, uMsg, wParam, lParam);
 	}
@@ -50,7 +58,7 @@ Window::Window(HINSTANCE hInstance)
 		NULL);
 
 	// Ctrl-Shift-Alt-D
-	RegisterHotKey(hwnd, Constants::HotkeyDownload, MOD_NOREPEAT | MOD_CONTROL | MOD_SHIFT | MOD_ALT, 0x44);
+	RegisterHotKey(hwnd, Constants::HotkeyDownload, MOD_NOREPEAT | MOD_SHIFT | MOD_WIN, 0x44);
 }
 
 Window::~Window()
