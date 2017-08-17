@@ -19,11 +19,7 @@ def install():
 	shortcut.WorkingDirectory = os.getcwd()
 	shortcut.save()
 
-	# Install the youtube-dl and pyperclip packages for the python part
-	print('\nInstalling dependencies...\n')
-	os.system("pip install pyperclip")
-	os.system("pip install youtube-dl")
-
+	os.system('pip install pafy')
 	print("Installed successfully.")
 
 def uninstall():

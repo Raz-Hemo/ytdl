@@ -1,6 +1,4 @@
-#include <tchar.h>
-#include <Windows.h>
-
+#include"stdafx.h"
 #include "Window.h"
 
 int WINAPI _tWinMain(
@@ -14,17 +12,17 @@ int WINAPI _tWinMain(
 	UNREFERENCED_PARAMETER(nCmdShow);
 
 	MSG msg = { 0 };
-	PROCESS_INFORMATION proc_info = { 0 };
-	STARTUPINFO proc_startup_info = { 0 };
-	proc_startup_info.cb = sizeof(proc_startup_info);
 
 	Window window(hInstance);
 
 	// Bind the hotkey handler
-	window.SetHotkeyHandler([&]() { 
-		// Execute ytdl.py under windowless python
-		TCHAR cmdline[] = _T("pythonw ytdl.py");
-		if (CreateProcess(NULL, cmdline, NULL, NULL, FALSE, 0, NULL, NULL, &proc_startup_info, &proc_info))
+	window.SetHotkeyHandler([](const tstring& url){
+		PROCESS_INFORMATION proc_info = { 0 };
+		STARTUPINFO proc_startup_info = { 0 };
+		proc_startup_info.cb = sizeof(proc_startup_info);
+		tstring line = _T("pythonw ytdl.py ") + url;
+
+		if (CreateProcess(NULL, &line[0], NULL, NULL, FALSE, 0, NULL, NULL, &proc_startup_info, &proc_info))
 		{
 			CloseHandle(proc_info.hProcess);
 			CloseHandle(proc_info.hThread);

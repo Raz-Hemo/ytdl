@@ -9,6 +9,6 @@ public:
 	Window(HINSTANCE hInstance);
 	~Window();
 
-	static void SetHotkeyHandler(const std::function<void()>& func);
+	static void SetHotkeyHandler(const std::function<void(const tstring&)>& func);
 };
 

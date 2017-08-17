@@ -1,6 +1,6 @@
 #include "Window.h"
 
-std::function<void()> HandleHotkey;
+std::function<void(const tstring&)> HandleHotkey;
 
 LRESULT CALLBACK WndProc(
 	HWND   hwnd,
@@ -59,7 +59,7 @@ Window::~Window()
 	DestroyWindow(hwnd);
 }
 
-void Window::SetHotkeyHandler(const std::function<void()>& func)
+void Window::SetHotkeyHandler(const std::function<void(const tstring&)>& func)
 {
 	HandleHotkey = func;
 }
