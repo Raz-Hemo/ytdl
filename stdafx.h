@@ -15,12 +15,6 @@ typedef std::string tstring;
 typedef std::regex tregex;
 #endif
 
-#ifdef UNICODE
-typedef std::wstring tstring;
-#else
-typedef std::string tstring;
-#endif
-
 namespace Constants
 {
 	const TCHAR ProgramName[] = _T("ytdl");

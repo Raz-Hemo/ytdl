@@ -26,18 +26,3 @@ tstring Clipboard::GetText()
 
 	return result;
 }
-
-void Clipboard::SetText(tstring text)
-{
-	// hMem := windowsy handle to text
-	HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, text.length() + 1);
-	memcpy(GlobalLock(hMem), text.c_str(), text.length() * sizeof(TCHAR));
-	GlobalUnlock(hMem);
-
-	if (OpenClipboard(NULL))
-	{
-		EmptyClipboard();
-		SetClipboardData(CF_TTEXT, hMem);
-		CloseClipboard();
-	}
-}

@@ -4,5 +4,4 @@
 namespace Clipboard
 {
 	tstring GetText();
-	void SetText(tstring text);
 }

@@ -1,5 +1,5 @@
 #
-# Installer for ytdl
+# Makes ytdl run with windows startup
 #
 import os
 import sys # for argv
@@ -18,8 +18,6 @@ def install():
 	shortcut.Targetpath = os.path.join(os.getcwd(), '{}.exe'.format(PROGRAM_PATH))
 	shortcut.WorkingDirectory = os.getcwd()
 	shortcut.save()
-
-	os.system('pip install pafy')
 	print("Installed successfully.")
 
 def uninstall():
@@ -35,7 +33,7 @@ if __name__ == '__main__':
 	if ctypes.windll.shell32.IsUserAnAdmin() != 1:
 		print('Run this script as admin please.')
 	elif len(sys.argv) != 2:
-		print('Usage: ytdl_installer.py [-i|-u] - install/uninstall')
+		print('Usage: {} [-i|-u] - install/uninstall'.format(sys.argv[0]))
 	else:
 		if sys.argv[1] == '-i':
 			install()

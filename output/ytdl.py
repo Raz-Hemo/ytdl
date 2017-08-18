@@ -1,10 +1,18 @@
-import pafy
 import sys
 import os
 import subprocess
 
+# Install pafy if it doesn't exist on system
+try:
+	import pafy
+except ImportError:
+	os.system('pip install pafy')
+	import pafy
+
 def main(url):
 	try:
+		sys.stdout = open(os.devnull, 'w')
+		sys.stderr = sys.stdout
 		video = pafy.new(url)
 		stream = video.getbestaudio()
 
@@ -15,7 +23,7 @@ def main(url):
 		after_conversion = filepath + '.mp3'
 
 		# Download and convert to mp3
-		stream.download(filepath=before_conversion)
+		stream.download(filepath=before_conversion, quiet=True)
 		subprocess.run('ffmpeg -y -i {} {}'.format(before_conversion, after_conversion), shell=True)
 	finally:
 		try:
