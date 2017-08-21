@@ -15,22 +15,22 @@ except ImportError:
 
 # Leaves only the "watch?v=" argument in the URL as pafy doesn't work with anything else
 def strip_url(url):
-	return '^(https?\\:\\/\\/)?(www\\.)?youtube\\.com\\/watch\\?v\\=[A-Za-z0-9_-]{11}'
+	return re.compile('^((https?\\:\\/\\/)?(www\\.)?youtube\\.com\\/watch\\?v\\=[A-Za-z0-9_-]{11})').match(url)[0]
 
 def main(url):
 	try:
-		video = pafy.new(url)
+		video = pafy.new(strip_url(url))
 		stream = video.getbestaudio()
 
 		filepath = 'C:\\Users\\{}\\Music\\{}'.format(
 			os.getenv('username'),
 			''.join(list(filter(lambda x: x not in r'\/:*?"<>|', video.title)))) # remove illegal chars
-		before_conversion = '"{}.{}"'.format(filepath, stream.extension)
-		after_conversion = '"{}.{}"'.format(filepath, 'mp3')
+		before_conversion = '{}.{}'.format(filepath, stream.extension)
+		after_conversion = '{}.{}'.format(filepath, 'mp3')
 
 		# Download and convert to mp3
 		stream.download(filepath=before_conversion, quiet=True)
-		subprocess.run('ffmpeg -y -i {} {}'.format(before_conversion, after_conversion), shell=True)
+		subprocess.run('ffmpeg -y -i "{}" "{}"'.format(before_conversion, after_conversion), shell=True)
 	finally:
 		try:
 			os.remove(before_conversion)
