@@ -18,7 +18,7 @@ int WINAPI _tWinMain(
 
 	// Bind the hotkey handler
 	window.SetHotkeyHandler([](){
-		tregex youtube_regex(L"^(https?\\:\\/\\/)?(www\\.)?youtube\\.com\\/watch\\?v\\=[A-Za-z0-9_-]{11}$");
+		tregex youtube_regex(L"^(https?\\:\\/\\/)?(www\\.)?youtube\\.com\\/watch\\?v\\=[A-Za-z0-9_-]{11}");
 		tstring potential_video_id = Clipboard::GetText();
 		if (std::regex_match(potential_video_id, youtube_regex))
 		{
