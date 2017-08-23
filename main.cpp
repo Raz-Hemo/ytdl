@@ -1,4 +1,4 @@
-#include"stdafx.h"
+#include "stdafx.h"
 #include "Window.h"
 #include "Clipboard.h"
 
@@ -18,9 +18,9 @@ int WINAPI _tWinMain(
 
 	// Bind the hotkey handler
 	window.SetHotkeyHandler([](){
-		tregex youtube_regex(L"^(https?\\:\\/\\/)?(www\\.)?youtube\\.com\\/watch\\?v\\=[A-Za-z0-9_-]{11}");
+		tregex youtube_regex(_T("^(https?\\:\\/\\/)?(www\\.)?youtube\\.com\\/watch\\?v\\=[A-Za-z0-9_-]{11}"));
 		tstring potential_video_id = Clipboard::GetText();
-		if (std::regex_match(potential_video_id, youtube_regex))
+		if (std::regex_search(potential_video_id, youtube_regex))
 		{
 			PROCESS_INFORMATION proc_info = { 0 };
 			STARTUPINFO proc_startup_info = { 0 };
